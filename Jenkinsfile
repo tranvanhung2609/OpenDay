@@ -50,18 +50,6 @@ pipeline {
             }
         }
 
-        stage('Build Front Service') {
-            steps {
-                script {
-                    echo 'Building Front service...'
-                    dir('front-service') {
-                        sh 'npm ci'
-                        sh 'npm run build'
-                    }
-                }
-            }
-        }
-
         stage('Build and Deploy with Docker') {
             steps {
                 script {
