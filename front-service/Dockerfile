@@ -1,27 +1,20 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Sử dụng image Node.js chính thức
+FROM node:20
 
+# Thiết lập thư mục làm việc trong container
 WORKDIR /app
 
-# Copy package files
+# Sao chép file package.json và package-lock.json vào container
 COPY package.json package-lock.json ./
+
+# Cài đặt các phụ thuộc
 RUN npm ci
 
-# Copy source code
+# Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Build the application
-RUN npm run build
-
-# Production stage
-FROM nginx:alpine
-
-# Copy built assets from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# Mở cổng 4000 (dùng cho Vite dev server)
 EXPOSE 4000
 
-CMD ["nginx", "-g", "daemon off;"]
+# Chạy ứng dụng React/Vite ở chế độ development
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

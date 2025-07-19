@@ -1,31 +1,15 @@
-# Multi-stage build
-FROM maven:3.8.4-openjdk-17 AS builder
-
-WORKDIR /app
-
-# Copy pom.xml and mvnw files
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
-
-# Download dependencies
-RUN ./mvnw dependency:go-offline -B
-
-# Copy source code
-COPY src ./src
-
-# Build the application
-RUN ./mvnw clean package -DskipTests
-
-# Production stage
+# Sử dụng base image với OpenJDK 17
 FROM openjdk:17-jdk-slim
 
+# Set thư mục làm việc trong container
 WORKDIR /app
 
-# Copy JAR file from builder stage
-COPY --from=builder /app/target/mqtt-service.jar app.jar
+# Sao chép file JAR vào thư mục /app trong container
+# Giả sử rằng file JAR được tạo ra trong thư mục target với tên tương ứng với project
+COPY target/mqtt-service.jar app.jar
 
-# Expose port
+# Mở cổng 8084 cho mqtt service
 EXPOSE 8084
 
-# Run the application
+# Chạy ứng dụng Eureka
 ENTRYPOINT ["java", "-jar", "app.jar"]
