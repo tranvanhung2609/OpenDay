@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  mqtt-service:
+    build:
+      context: ./mqtt-service
+      dockerfile: Dockerfile
+    container_name: mqtt-service
+    image: mqtt-service:latest
+    ports:
+      - "8084:8084"
+    networks:
+      - ptit-net
+    restart: always
+    environment:
+      - POSTGRES_URL=${POSTGRES_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=small_kit
+      - MQTT_BROKER_URL=${MQTT_BROKER_URL}
+    depends_on:
+      - postgres
+
+  front-service:
+    build:
+      context: ./front-service
+      dockerfile: Dockerfile
+    container_name: front-service
+    image: front-service:latest
+    ports:
+      - "4000:4000"
+    networks:
+      - ptit-net
+    restart: always
+    environment:
+      - VITE_API_BASE_URL=http://mqtt-service:8084
+    depends_on:
+      - mqtt-service
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: small_kit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ptit-net
+    restart: always
+
+volumes:
+  postgres_data:
+
+networks:
+  ptit-net:
+    driver: bridge
