@@ -13,27 +13,28 @@ const Contact: React.FC = () => {
 
   return (
     <AppLayout>
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         <motion.div
-          className="mb-8"
+          className="mb-6 md:mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography.Title level={2} className="forest--dark--color flex items-center gap-2">
+          <Typography.Title level={2} className="forest--dark--color flex items-center gap-2 text-lg md:text-2xl">
             <ContactsOutlined /> Liên Hệ
           </Typography.Title>
         </motion.div>
 
         <motion.div
-          className="mb-24 xs:mb-14 shadow-xl rounded-lg overflow-hidden border-2"
+          className="mb-12 md:mb-24 shadow-xl rounded-lg overflow-hidden border-2"
           style={{ borderColor: '#d2e3c8' }}
           {...fadeInUp}
         >
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.2924013039187!2d105.78484157491434!3d20.980912980656438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135accdd8a1ad71%3A0xa2f9b16036648187!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCB2aeG7hW4gdGjDtG5n!5e0!3m2!1svi!2s!4v1733414001712!5m2!1svi!2s"
             width="100%"
-            height="350"
+            height="250"
+            className="md:h-[350px]"
             style={{ border: 0 }}
             allowFullScreen={false}
             loading="lazy"
@@ -41,14 +42,14 @@ const Contact: React.FC = () => {
           ></iframe>
         </motion.div>
 
-        <div className="container mx-auto p-5 flex gap-8 flex-wrap">
+        <div className="container mx-auto p-3 md:p-5 flex gap-4 md:gap-8 flex-col md:flex-row">
           <motion.div
-            className="flex-1 bg-gradient-to-br from-white to-[#f5f8f5] p-6 rounded-lg shadow-lg min-w-[300px]"
+            className="flex-1 bg-gradient-to-br from-white to-[#f5f8f5] p-4 md:p-6 rounded-lg shadow-lg min-w-[280px] md:min-w-[300px]"
             {...fadeInUp}
             style={{ borderColor: '#86a789', borderWidth: '1px' }}
           >
-            <h2 className="text-2xl mb-4 forest--dark--color font-semibold">Liên Hệ IoT LAB</h2>
-            <p className="text-base mb-6 moss--color">
+            <h2 className="text-xl md:text-2xl mb-3 md:mb-4 forest--dark--color font-semibold">Liên Hệ IoT LAB</h2>
+            <p className="text-sm md:text-base mb-4 md:mb-6 moss--color">
               Hãy liên hệ với chúng tôi bất cứ khi nào bạn cần. Chúng tôi sẽ phản
               hồi trong thời gian sớm nhất!
             </p>
@@ -60,15 +61,15 @@ const Contact: React.FC = () => {
               ].map((item, index) => (
                 <motion.li
                   key={index}
-                  className="mb-4"
+                  className="mb-3 md:mb-4"
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.2 }}
                 >
                   <div className="flex items-center mb-2">
-                    <i className={`fa-solid fa-${item.icon} mr-3 pine--color text-xl`}></i>
+                    <i className={`fa-solid fa-${item.icon} mr-2 md:mr-3 pine--color text-lg md:text-xl`}></i>
                     <a
                       href={item.href}
-                      className="forest--dark--color hover:text-[#4f6f52] transition-colors"
+                      className="forest--dark--color hover:text-[#4f6f52] transition-colors text-sm md:text-base"
                     >
                       {item.text}
                     </a>
@@ -80,11 +81,11 @@ const Contact: React.FC = () => {
           </motion.div>
 
           <motion.div
-            className="flex-2 bg-gradient-to-br from-white to-[#f5f8f5] p-6 rounded-lg shadow-lg flex flex-col gap-5"
+            className="flex-2 bg-gradient-to-br from-white to-[#f5f8f5] p-4 md:p-6 rounded-lg shadow-lg flex flex-col gap-3 md:gap-5"
             {...fadeInUp}
             style={{ borderColor: '#86a789', borderWidth: '1px' }}
           >
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-5">
               {['name', 'email', 'phone'].map((field) => (
                 <motion.div
                   key={field}
@@ -97,7 +98,7 @@ const Contact: React.FC = () => {
                     name={field}
                     placeholder={field === 'name' ? 'Tên của bạn' :
                       field === 'email' ? 'Địa chỉ email' : 'Số điện thoại'}
-                    className="w-full p-4 border-2 border-[#d2e3c8] rounded-md text-base focus:border-[#4f6f52] focus:outline-none transition-colors bg-white/80"
+                    className="w-full p-3 md:p-4 border-2 border-[#d2e3c8] rounded-md text-sm md:text-base focus:border-[#4f6f52] focus:outline-none transition-colors bg-white/80"
                   />
                 </motion.div>
               ))}
@@ -108,7 +109,7 @@ const Contact: React.FC = () => {
                 type="text"
                 name="subject"
                 placeholder="Chủ đề"
-                className="w-full p-4 border-2 border-[#d2e3c8] rounded-md text-base focus:border-[#4f6f52] focus:outline-none transition-colors bg-white/80"
+                className="w-full p-3 md:p-4 border-2 border-[#d2e3c8] rounded-md text-sm md:text-base focus:border-[#4f6f52] focus:outline-none transition-colors bg-white/80"
               />
             </motion.div>
 
@@ -117,8 +118,8 @@ const Contact: React.FC = () => {
                 name="message"
                 required
                 placeholder="Tin nhắn của bạn"
-                className="w-full h-54 p-4 border-2 border-[#d2e3c8] rounded-md text-base focus:border-[#4f6f52] focus:outline-none transition-colors resize-none bg-white/80"
-                rows={6}
+                className="w-full h-32 md:h-54 p-3 md:p-4 border-2 border-[#d2e3c8] rounded-md text-sm md:text-base focus:border-[#4f6f52] focus:outline-none transition-colors resize-none bg-white/80"
+                rows={4}
               ></textarea>
             </motion.div>
 
@@ -129,7 +130,7 @@ const Contact: React.FC = () => {
             >
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#4f6f52] to-[#3a5a40] text-white text-base rounded-md transition-all duration-300 hover:from-[#3a5a40] hover:to-[#2c4a2d] shadow-md hover:shadow-xl"
+                className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-[#4f6f52] to-[#3a5a40] text-white text-sm md:text-base rounded-md transition-all duration-300 hover:from-[#3a5a40] hover:to-[#2c4a2d] shadow-md hover:shadow-xl"
               >
                 <i className="fa-solid fa-paper-plane"></i>
                 <span>Gửi đi</span>

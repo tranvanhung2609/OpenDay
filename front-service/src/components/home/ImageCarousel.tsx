@@ -19,7 +19,7 @@ const ImageCarousel: React.FC = () => {
 
     return (
         <motion.div
-            className="w-[500px]"
+            className="w-full md:w-[500px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -27,13 +27,13 @@ const ImageCarousel: React.FC = () => {
             <Card className="bg-white/90 backdrop-blur">
                 <Carousel autoplay effect="fade">
                     {images.map((image, index) => (
-                        <div key={index} className="h-[400px]">
+                        <div key={index} className="h-[250px] md:h-[400px]">
                             <Image
                                 src={image.src}
                                 alt={image.title}
                                 className="w-full h-full object-cover rounded-lg"
                             />
-                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 text-white">
+                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-black/50 text-white text-sm md:text-base">
                                 {image.title}
                             </div>
                         </div>

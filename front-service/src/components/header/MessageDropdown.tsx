@@ -220,10 +220,10 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
                 ${isFullscreen ? 'rounded-none' : ''}`}
             style={{
                 display: visible ? 'flex' : 'none',
-                width: isFullscreen ? '100vw' : size.width,
-                height: isFullscreen ? '100vh' : size.height,
-                top: isFullscreen ? 0 : position.y,
-                left: isFullscreen ? 0 : position.x,
+                width: isFullscreen ? '100vw' : Math.min(size.width, window.innerWidth - 40),
+                height: isFullscreen ? '100vh' : Math.min(size.height, window.innerHeight - 40),
+                top: isFullscreen ? 0 : Math.max(0, Math.min(position.y, window.innerHeight - size.height)),
+                left: isFullscreen ? 0 : Math.max(0, Math.min(position.x, window.innerWidth - size.width)),
                 cursor: isDragging ? 'grabbing' : 'default',
                 touchAction: 'none',
                 transition: isDragging || isResizing ? 'none' : 'all 0.3s ease-in-out',
@@ -231,17 +231,17 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
             }}
         >
             <div 
-                className="bg-[#4f6f52] text-white p-4 rounded-t-lg flex justify-between items-center cursor-move"
+                className="bg-[#4f6f52] text-white p-3 md:p-4 rounded-t-lg flex justify-between items-center cursor-move"
                 onMouseDown={handleMouseDown}
             >
                 <div className="flex items-center">
-                    <DragOutlined className="mr-2 opacity-70" />
-                    <h2 className="text-lg font-semibold">Chat với AI Assistant</h2>
+                    <DragOutlined className="mr-1 md:mr-2 opacity-70 text-sm md:text-base" />
+                    <h2 className="text-base md:text-lg font-semibold">Chat với AI Assistant</h2>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 md:space-x-2">
                     <button
                         onClick={toggleFullscreen}
-                        className="hover:text-white/80 transition-colors"
+                        className="hover:text-white/80 transition-colors text-sm md:text-base"
                     >
                         {isFullscreen ? (
                             <FullscreenExitOutlined />
@@ -258,27 +258,28 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
                 </div>
             </div>
 
-            <div className="flex flex-col h-full">
+                            <div className="flex flex-col h-full">
                 <Tabs
                     activeKey={activeTab}
                     onChange={(key) => setActiveTab(key as TabType)}
                     items={items}
-                    className="px-4 pt-2"
+                    className="px-2 md:px-4 pt-2"
+                    size="small"
                 />
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4">
                     {messages.map((msg, index) => (
                         <div 
                             key={index} 
                             className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}
                         >
                             <div 
-                                className={`rounded-lg p-3 max-w-[70%] ${
+                                className={`rounded-lg p-2 md:p-3 max-w-[80%] md:max-w-[70%] ${
                                     msg.isUser 
                                         ? 'bg-[#4f6f52] text-white' 
                                         : 'bg-gray-100'
                                 }`}
                             >
-                                <p className="text-sm">{msg.content}</p>
+                                <p className="text-xs md:text-sm">{msg.content}</p>
                                 <p className="text-xs mt-1 opacity-70">
                                     {formatDistanceToNow(msg.timestamp, { 
                                         addSuffix: true,
@@ -290,28 +291,30 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
                     ))}
                     {isLoading && (
                         <div className="flex justify-center">
-                            <Spin />
+                            <Spin size="small" />
                         </div>
                     )}
                     <div ref={messagesEndRef} />
                 </div>
 
-                <div className="border-t p-4 bg-gray-50">
-                    <div className="flex gap-2 items-center">
+                <div className="border-t p-2 md:p-4 bg-gray-50">
+                    <div className="flex gap-1 md:gap-2 items-center">
                         <div className="relative flex-1">
                             <Input
                                 value={inputMessage}
                                 onChange={handleInputChange}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder={activeTab === 'chat' ? "Nhập tin nhắn..." : "Nhập câu hỏi về IoT..."}
-                                className="flex-1 rounded-full py-2 px-4 border-gray-300 focus:border-[#4f6f52] focus:ring-[#4f6f52]"
+                                className="flex-1 rounded-full py-1 md:py-2 px-2 md:px-4 border-gray-300 focus:border-[#4f6f52] focus:ring-[#4f6f52] text-xs md:text-sm"
                                 disabled={isLoading}
+                                size="small"
                             />
                             <Button
                                 type="text"
-                                icon={<SmileOutlined className="text-gray-500 hover:text-[#4f6f52] transition-colors" />}
+                                icon={<SmileOutlined className="text-gray-500 hover:text-[#4f6f52] transition-colors text-xs md:text-sm" />}
                                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
+                                className="absolute right-1 md:right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
+                                size="small"
                             />
                             {showEmojiPicker && (
                                 <div className="absolute bottom-full right-0 mb-2 z-50">
@@ -319,6 +322,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
                                         data={data}
                                         onEmojiSelect={handleEmojiSelect}
                                         theme="light"
+                                        set="native"
+                                        size={20}
                                     />
                                 </div>
                             )}
@@ -326,9 +331,9 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ visible, onClose }) => {
                         <button
                             onClick={handleSend}
                             disabled={isLoading}
-                            className="bg-[#4f6f52] text-white p-3 rounded-full hover:bg-[#3d5740] transition-colors disabled:opacity-50 flex items-center justify-center"
+                            className="bg-[#4f6f52] text-white p-2 md:p-3 rounded-full hover:bg-[#3d5740] transition-colors disabled:opacity-50 flex items-center justify-center"
                         >
-                            <SendOutlined className="text-lg" />
+                            <SendOutlined className="text-sm md:text-lg" />
                         </button>
                     </div>
                 </div>

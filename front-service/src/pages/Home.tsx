@@ -10,8 +10,8 @@ import LabInfo from '../components/home/LabInfo';
 const Home: React.FC = () => {
   return (
     <AppLayout>
-      <div className="p-6 min-h-screen bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52]">
-        <Row gutter={[24, 24]}>
+      <div className="p-3 md:p-6 min-h-screen bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52]">
+        <Row gutter={[16, 16]} className="md:gutter-[24, 24]">
           {/* Lab Info Section */}
           <Col span={24}>
             <MainContent />
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
 
           {/* Video and Image Carousel Section */}
           <Col span={24}>
-            <Flex gap={24}>
+            <Flex gap={16} className="md:gap-6 flex-col md:flex-row">
               <VideoSection />
               <ImageCarousel />
             </Flex>
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
           {/* Lab Info and Side Content */}
           <Col span={24}>
-            <Flex gap={24}>
+            <Flex gap={16} className="md:gap-6 flex-col md:flex-row">
               <LabInfo />
               <SideContent />
             </Flex>

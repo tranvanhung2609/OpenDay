@@ -9,13 +9,13 @@ const { Title } = Typography;
 const SideContent: React.FC = () => {
   return (
     <motion.div
-      className="w-[350px] space-y-6"
+      className="w-full md:w-[350px] space-y-4 md:space-y-6"
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
       <Card className="bg-white/90 backdrop-blur">
-        <Title level={4} className="text-[#4f6f52]">
+        <Title level={4} className="text-[#4f6f52] text-base md:text-lg">
           Upcoming Events
         </Title>
         <Timeline
@@ -24,8 +24,8 @@ const SideContent: React.FC = () => {
               dot: <ClockCircleOutlined className="text-[#4f6f52]" />,
               children: (
                 <>
-                  <div className="font-medium">IoT Workshop</div>
-                  <div className="text-sm text-gray-500">Tomorrow, 2:00 PM</div>
+                  <div className="font-medium text-sm md:text-base">IoT Workshop</div>
+                  <div className="text-xs md:text-sm text-gray-500">Tomorrow, 2:00 PM</div>
                 </>
               ),
             },
@@ -33,8 +33,8 @@ const SideContent: React.FC = () => {
               dot: <BellOutlined className="text-[#4f6f52]" />,
               children: (
                 <>
-                  <div className="font-medium">Research Presentation</div>
-                  <div className="text-sm text-gray-500">Next Week</div>
+                  <div className="font-medium text-sm md:text-base">Research Presentation</div>
+                  <div className="text-xs md:text-sm text-gray-500">Next Week</div>
                 </>
               ),
             },
@@ -43,7 +43,7 @@ const SideContent: React.FC = () => {
       </Card>
 
       <Card className="bg-white/90 backdrop-blur">
-        <Title level={4} className="text-[#4f6f52]">
+        <Title level={4} className="text-[#4f6f52] text-base md:text-lg">
           Technologies
         </Title>
         <div className="flex flex-wrap gap-2">
@@ -62,7 +62,7 @@ const SideContent: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <Tag color="green">{tech}</Tag>
+              <Tag color="green" className="text-xs md:text-sm">{tech}</Tag>
             </motion.div>
           ))}
         </div>

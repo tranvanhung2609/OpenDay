@@ -21,7 +21,7 @@ export const SensorMonitorCard: React.FC<SensorMonitorCardProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="w-full md:w-1/2 lg:w-1/4 p-2"
+            className="w-full p-1 md:p-2"
         >
             <Card
                 className={`
@@ -32,17 +32,17 @@ export const SensorMonitorCard: React.FC<SensorMonitorCardProps> = ({
             >
                 <div className="flex items-center justify-between">
                     <div className={`
-            text-2xl
+            text-lg md:text-2xl
             ${isWarning ? 'text-red-500' : 'text-gray-600'}
           `}>
                         {icon}
                     </div>
-                    <Typography.Text className="text-gray-500">{name}</Typography.Text>
+                    <Typography.Text className="text-gray-500 text-xs md:text-sm">{name}</Typography.Text>
                 </div>
 
-                <div className="mt-4">
-                    <Typography.Title level={2} className={`
-            mb-0
+                <div className="mt-2 md:mt-4">
+                    <Typography.Title level={3} className={`
+            mb-0 text-base md:text-lg
             ${isWarning ? 'text-red-500' : 'text-gray-700'}
           `}>
                         {value} {unit}

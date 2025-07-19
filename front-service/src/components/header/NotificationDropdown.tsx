@@ -10,16 +10,16 @@ export const NotificationTooltipContent: React.FC = () => (
     <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-64 p-2"
+        className="w-48 md:w-64 p-2"
     >
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-2 md:gap-3 mb-2">
             <Avatar 
                 icon={<NotificationOutlined />} 
                 className="bg-[#4f6f52]"
                 size="small"
             />
             <div>
-                <Typography.Text strong className="text-white">
+                <Typography.Text strong className="text-white text-xs md:text-sm">
                     Thông báo
                 </Typography.Text>
                 <Typography.Text className="block text-xs text-white/80">
@@ -49,29 +49,30 @@ const NotificationContent: React.FC<{ notifications: Notification[]; isLoading: 
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    className="w-80 bg-white rounded-lg shadow-lg p-4"
+    className="w-72 md:w-80 bg-white rounded-lg shadow-lg p-3 md:p-4"
   >
-    <div className="flex items-center justify-between mb-4">
-      <Typography.Title level={5} className="!m-0">Thông báo</Typography.Title>
-      <Badge count={notifications.filter(n => !n.read).length} />
+    <div className="flex items-center justify-between mb-3 md:mb-4">
+      <Typography.Title level={5} className="!m-0 text-sm md:text-base">Thông báo</Typography.Title>
+      <Badge count={notifications.filter(n => !n.read).length} size="small" />
     </div>
     {isLoading ? (
-      <div className="flex justify-center p-4">
-        <Spin />
+      <div className="flex justify-center p-3 md:p-4">
+        <Spin size="small" />
       </div>
     ) : (
       <List
         dataSource={notifications}
+        size="small"
         renderItem={notification => (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <List.Item className={`rounded-lg p-2 mb-2 ${!notification.read ? 'bg-[#f0f5f1]' : ''}`}>
+            <List.Item className={`rounded-lg p-2 mb-1 md:mb-2 ${!notification.read ? 'bg-[#f0f5f1]' : ''}`}>
               <List.Item.Meta
-                title={notification.title}
-                description={notification.message}
+                title={<span className="text-xs md:text-sm">{notification.title}</span>}
+                description={<span className="text-xs">{notification.message}</span>}
               />
               <div className="text-xs text-gray-500">
                 {formatDistanceToNow(new Date(notification.createdAt), { 
@@ -101,7 +102,7 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ noti
       placement="bottomRight"
     >
       {children || (
-        <BellOutlined className="text-xl p-2 rounded-full bg-[#d2e3c8] text-[#4F6F52] hover:bg-[#86A789] hover:text-white transition-all duration-300" />
+        <BellOutlined className="text-lg md:text-xl p-1.5 md:p-2 rounded-full bg-[#d2e3c8] text-[#4F6F52] hover:bg-[#86A789] hover:text-white transition-all duration-300" />
       )}
     </Dropdown>
   );

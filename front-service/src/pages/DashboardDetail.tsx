@@ -111,18 +111,22 @@ useEffect(() => {
 
   return (
     <AppLayout>
-      <div className="p-6 space-y-8 bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52] min-h-screen">
+      <div className="px-4 py-6 md:px-6 md:py-8 space-y-6 md:space-y-8 bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52] min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <Typography.Title level={2} className="text-[#2c4a2d] flex items-center gap-2">
+          <Typography.Title 
+            level={2} 
+            className="text-[#2c4a2d] flex items-center gap-2 text-xl md:text-2xl"
+          >
             <DashboardOutlined /> Dashboard
           </Typography.Title>
         </motion.div>
 
-        <Row gutter={[16, 16]} className="mb-8">
+        {/* MQTT Control Section - Hidden on mobile */}
+        <Row gutter={[16, 16]} className="mb-6 md:mb-8 hidden md:flex">
           <Col xs={24} lg={12}>
             <BrokerInfoCard
               broker={sensorData.data.broker}
@@ -137,58 +141,71 @@ useEffect(() => {
           </Col>
         </Row>
 
-        <Row gutter={[16, 16]} className="mb-8">
+        <Row gutter={[16, 16]} className="mb-6 md:mb-8">
           {sensorConfigs.map((sensor, index) => (
-            <SensorMonitorCard
-              key={sensor.name}
-              name={sensor.name}
-              value={sensor.value}
-              unit={sensor.unit}
-              warningThreshold={sensor.threshold}
-              index={index}
-              icon={sensor.icon}
-            />
+            <Col xs={12} sm={12} md={6} key={sensor.name}>
+              <SensorMonitorCard
+                name={sensor.name}
+                value={sensor.value}
+                unit={sensor.unit}
+                warningThreshold={sensor.threshold}
+                index={index}
+                icon={sensor.icon}
+              />
+            </Col>
           ))}
         </Row>
 
-        <Row gutter={[16, 16]} className="mb-8">
-          <DeviceControlCard
-            name="LED"
-            status={sensorData.status.led}
-            onToggle={toggleLed}
-            index={0}
-            icon={<BulbOutlined />}
-          />
-          <DeviceControlCard
-            name="Buzzer"
-            status={sensorData.status.buzzer}
-            onToggle={toggleBuzzer}
-            index={1}
-            icon={<NotificationOutlined />}
-          />
-          <DeviceControlCard
-            name="Fan"
-            status={sensorData.status.fan}
-            onToggle={toggleFan}
-            index={2}
-            icon={<ThunderboltOutlined />}
-          />
-          <DeviceControlCard
-            name="Alert LED"
-            status={sensorData.status.alert_led}
-            onToggle={toggleAlertLed}
-            index={3}
-            icon={<AlertOutlined />}
-          />
-          <DeviceControlCard
-            name="Servo"
-            status={sensorData.status.servo}
-            onToggle={toggleServo}
-            index={4}
-            icon={<RobotOutlined />}
-          />
+        {/* Device Control Section - Visible on all devices */}
+        <Row gutter={[16, 16]} className="mb-6 md:mb-8">
+          <Col xs={12} sm={8} md={4}>
+            <DeviceControlCard
+              name="LED"
+              status={sensorData.status.led}
+              onToggle={toggleLed}
+              index={0}
+              icon={<BulbOutlined />}
+            />
+          </Col>
+          <Col xs={12} sm={8} md={4}>
+            <DeviceControlCard
+              name="Buzzer"
+              status={sensorData.status.buzzer}
+              onToggle={toggleBuzzer}
+              index={1}
+              icon={<NotificationOutlined />}
+            />
+          </Col>
+          <Col xs={12} sm={8} md={4}>
+            <DeviceControlCard
+              name="Fan"
+              status={sensorData.status.fan}
+              onToggle={toggleFan}
+              index={2}
+              icon={<ThunderboltOutlined />}
+            />
+          </Col>
+          <Col xs={12} sm={8} md={4}>
+            <DeviceControlCard
+              name="Alert LED"
+              status={sensorData.status.alert_led}
+              onToggle={toggleAlertLed}
+              index={3}
+              icon={<AlertOutlined />}
+            />
+          </Col>
+          <Col xs={12} sm={8} md={4}>
+            <DeviceControlCard
+              name="Servo"
+              status={sensorData.status.servo}
+              onToggle={toggleServo}
+              index={4}
+              icon={<RobotOutlined />}
+            />
+          </Col>
         </Row>
 
+        {/* Charts Section - Always visible */}
         <Row gutter={[16, 16]}>
           {Object.entries(sensorHistory).map(([key, data], index) => (
             <Col xs={24} lg={12} key={key}>

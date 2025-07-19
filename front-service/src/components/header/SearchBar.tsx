@@ -83,16 +83,17 @@ export const SearchComponent: React.FC<SearchProps> = ({ onSearch }) => {
             <div className="flex items-center">
                 <Input
                     ref={inputRef}
-                    prefix={<SearchOutlined className="text-gray-400" />}
+                    prefix={<SearchOutlined className="text-gray-400 text-sm" />}
                     placeholder="Search Dashboard"
                     value={searchValue}
                     onChange={handleInputChange}
                     onFocus={() => setIsDropdownVisible(true)}
-                    className="w-[300px] rounded-lg"
+                    className="w-full md:w-[300px] rounded-lg text-sm"
+                    size="small"
                     suffix={
                         searchValue ? (
                             <CloseOutlined
-                                className="text-gray-400 cursor-pointer hover:text-gray-600"
+                                className="text-gray-400 cursor-pointer hover:text-gray-600 text-sm"
                                 onClick={handleClearInput}
                             />
                         ) : null
@@ -107,14 +108,14 @@ export const SearchComponent: React.FC<SearchProps> = ({ onSearch }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-100"
+                        className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-100 max-h-64 overflow-y-auto"
                     >
                         {/* Rest of the dropdown content remains the same */}
                         {recentSearches.length > 0 && (
                             <>
-                                <div className="p-2 flex justify-between items-center text-sm text-gray-500">
+                                <div className="p-2 flex justify-between items-center text-xs md:text-sm text-gray-500">
                                     <span className="flex items-center">
-                                        <HistoryOutlined className="mr-1" /> Recent Searches
+                                        <HistoryOutlined className="mr-1 text-xs" /> Recent Searches
                                     </span>
                                     <button
                                         onClick={handleClearRecent}
@@ -128,12 +129,12 @@ export const SearchComponent: React.FC<SearchProps> = ({ onSearch }) => {
                                     dataSource={recentSearches}
                                     renderItem={item => (
                                         <List.Item
-                                            className="px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                                            className="px-2 md:px-3 py-1.5 md:py-2 hover:bg-gray-50 cursor-pointer"
                                             onClick={() => handleSearch(item)}
                                         >
-                                            <div className="flex items-center text-gray-600">
-                                                <HistoryOutlined className="mr-2" />
-                                                {item}
+                                            <div className="flex items-center text-gray-600 text-xs md:text-sm">
+                                                <HistoryOutlined className="mr-2 text-xs" />
+                                                <span className="truncate">{item}</span>
                                             </div>
                                         </List.Item>
                                     )}
@@ -148,12 +149,12 @@ export const SearchComponent: React.FC<SearchProps> = ({ onSearch }) => {
                             )}
                             renderItem={item => (
                                 <List.Item
-                                    className="px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                                    className="px-2 md:px-3 py-1.5 md:py-2 hover:bg-gray-50 cursor-pointer"
                                     onClick={() => handleSearch(item)}
                                 >
-                                    <div className="flex items-center text-gray-600">
-                                        <SearchOutlined className="mr-2" />
-                                        {item}
+                                    <div className="flex items-center text-gray-600 text-xs md:text-sm">
+                                        <SearchOutlined className="mr-2 text-xs" />
+                                        <span className="truncate">{item}</span>
                                     </div>
                                 </List.Item>
                             )}

@@ -15,7 +15,7 @@ const VideoSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <Card className="bg-white/90 backdrop-blur h-[400px]">
+            <Card className="bg-white/90 backdrop-blur h-[250px] md:h-[400px]">
                 {!hasError ? (
                     <video
                         autoPlay
@@ -28,7 +28,7 @@ const VideoSection: React.FC = () => {
                         Trình duyệt của bạn không hỗ trợ video!
                     </video>
                 ) : (
-                    <div className="flex items-center justify-center h-full text-gray-500">
+                    <div className="flex items-center justify-center h-full text-gray-500 text-sm md:text-base">
                         Video không thể tải!
                     </div>
                 )}

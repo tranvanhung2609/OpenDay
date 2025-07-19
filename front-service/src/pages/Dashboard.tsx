@@ -21,19 +21,22 @@ const Dashboard: React.FC = () => {
 
     return (
         <AppLayout>
-            <div className="p-6 space-y-8 bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52] min-h-screen">
+            <div className="px-4 py-6 md:px-6 md:py-8 space-y-6 md:space-y-8 bg-gradient-to-br from-[#d2e3c8] via-[#86a789] to-[#4f6f52] min-h-screen">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <Typography.Title level={2} className="flex items-center gap-2 text-[#2c4a2d]">
+                    <Typography.Title 
+                        level={2} 
+                        className="flex items-center gap-2 text-[#2c4a2d] text-xl md:text-2xl"
+                    >
                         <DashboardOutlined /> IoT Devices Dashboard
                     </Typography.Title>
                 </motion.div>
 
                 <motion.div 
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}

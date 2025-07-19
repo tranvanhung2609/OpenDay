@@ -77,13 +77,13 @@ String generateRandomAPName()
   uint16_t randomNum = (chipId >> 16) ^ (chipId & 0xFFFF);
 
   // Tạo tên với format: "Gateway_XXXX" (XXXX là số hex 4 chữ số)
-  String apName = "Gateway_";
-  if (randomNum < 0x1000)
-  {
-    apName += "0";
-  }
-  apName += String(randomNum, HEX);
-  apName.toUpperCase();
+  String apName = "OpenDay";
+  // if (randomNum < 0x1000)
+  // {
+  //   apName += "0";
+  // }
+  // apName += String(randomNum, HEX);
+  // apName.toUpperCase();
 
   return apName;
 }

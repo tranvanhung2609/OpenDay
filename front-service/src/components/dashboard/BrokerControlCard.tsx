@@ -194,12 +194,12 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
 
   return (
     <Card className="bg-gradient-to-br from-white to-green-50 shadow-lg border border-green-100" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Title level={4} className="mb-4 flex items-center">
-        <CloudServerOutlined className="mr-2 text-green-500 text-2xl" />
+      <Title level={4} className="mb-3 md:mb-4 flex items-center text-base md:text-lg">
+        <CloudServerOutlined className="mr-2 text-green-500 text-lg md:text-2xl" />
         Broker Control
         <div className="ml-2 flex items-center">
-          <div className={`w-3 h-3 rounded-full mr-2 ${getConnectionStatusColor()} animate-pulse`} />
-          <span className="text-sm text-gray-500">
+          <div className={`w-2 h-2 md:w-3 md:h-3 rounded-full mr-1 md:mr-2 ${getConnectionStatusColor()} animate-pulse`} />
+          <span className="text-xs md:text-sm text-gray-500">
             {getConnectionStatusText()}
           </span>
         </div>
@@ -211,114 +211,129 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
           description={lastError.message}
           type="error"
           showIcon
-          className="mb-4"
+          className="mb-3 md:mb-4 text-xs md:text-sm"
         />
       )}
 
       <div className="flex-grow overflow-auto" style={{ maxHeight: 'calc(100vh - 300px)' }}>
-        <Collapse className="mb-4" activeKey={collapseActiveKey} onChange={setCollapseActiveKey}>
+        <Collapse className="mb-3 md:mb-4" activeKey={collapseActiveKey} onChange={setCollapseActiveKey}>
           <Panel header={
             <div className="flex items-center">
-              <ThunderboltOutlined className="mr-2 text-blue-500 text-xl" />
-              <span>Broker Configuration</span>
+              <ThunderboltOutlined className="mr-1 md:mr-2 text-blue-500 text-base md:text-xl" />
+              <span className="text-sm md:text-base">Broker Configuration</span>
             </div>
           } key="1">
             <Form layout="vertical">
-              <div className="grid grid-cols-2 gap-4">
-                <Form.Item label="Broker Address">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <Form.Item label={<span className="text-xs md:text-sm">Broker Address</span>}>
                   <Input
-                    prefix={<GlobalOutlined className="text-blue-500" />}
+                    prefix={<GlobalOutlined className="text-blue-500 text-xs md:text-sm" />}
                     value={brokerConfig.address}
                     onChange={e => setBrokerConfig(prev => ({ ...prev, address: e.target.value.replace(/\s+/g, '') }))}
                     placeholder="e.g., broker.example.com"
+                    size="small"
                   />
                 </Form.Item>
-                <Form.Item label="Port">
+                <Form.Item label={<span className="text-xs md:text-sm">Port</span>}>
                   <Input
-                    prefix={<KeyOutlined className="text-blue-500" />}
+                    prefix={<KeyOutlined className="text-blue-500 text-xs md:text-sm" />}
                     value={brokerConfig.port}
                     onChange={e => setBrokerConfig(prev => ({ ...prev, port: e.target.value.replace(/\s+/g, '') }))}
                     placeholder="e.g., 9001"
+                    size="small"
                   />
                 </Form.Item>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Form.Item label="Protocol">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4">
+                <Form.Item label={<span className="text-xs md:text-sm">Protocol</span>}>
                   <Select
                     value={brokerConfig.protocol}
                     onChange={value => setBrokerConfig(prev => ({ ...prev, protocol: value }))}
+                    size="small"
                   >
                     <Option value="ws">WebSocket (ws)</Option>
                     <Option value="wss">WebSocket Secure (wss)</Option>
                   </Select>
                 </Form.Item>
-                <Form.Item label="Path">
+                <Form.Item label={<span className="text-xs md:text-sm">Path</span>}>
                   <Input
-                    prefix={<SafetyCertificateOutlined className="text-blue-500" />}
                     value={brokerConfig.path}
                     onChange={e => setBrokerConfig(prev => ({ ...prev, path: e.target.value }))}
                     placeholder="/mqtt"
+                    size="small"
                   />
                 </Form.Item>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Form.Item label="Username">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4">
+                <Form.Item label={<span className="text-xs md:text-sm">Username</span>}>
                   <Input
-                    prefix={<UserOutlined className="text-blue-500" />}
+                    prefix={<UserOutlined className="text-blue-500 text-xs md:text-sm" />}
                     value={brokerConfig.username}
                     onChange={e => setBrokerConfig(prev => ({ ...prev, username: e.target.value }))}
-                    placeholder="Optional"
+                    placeholder="Username (optional)"
+                    size="small"
                   />
                 </Form.Item>
-                <Form.Item label="Password">
+                <Form.Item label={<span className="text-xs md:text-sm">Password</span>}>
                   <Input.Password
-                    prefix={<LockOutlined className="text-blue-500" />}
+                    prefix={<LockOutlined className="text-blue-500 text-xs md:text-sm" />}
                     value={brokerConfig.password}
                     onChange={e => setBrokerConfig(prev => ({ ...prev, password: e.target.value }))}
-                    placeholder="Optional"
+                    placeholder="Password (optional)"
+                    size="small"
                   />
                 </Form.Item>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Form.Item label="Keep Alive (seconds)">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-3 md:mb-4">
+                <Form.Item label={<span className="text-xs md:text-sm">Client ID</span>}>
+                  <Input
+                    value={brokerConfig.clientId}
+                    onChange={e => setBrokerConfig(prev => ({ ...prev, clientId: e.target.value }))}
+                    placeholder="Auto-generated if empty"
+                    size="small"
+                  />
+                </Form.Item>
+                <Form.Item label={<span className="text-xs md:text-sm">Keepalive</span>}>
                   <Input
                     type="number"
                     value={brokerConfig.keepalive}
-                    onChange={e => setBrokerConfig(prev => ({ ...prev, keepalive: parseInt(e.target.value) }))}
-                    min={0}
+                    onChange={e => setBrokerConfig(prev => ({ ...prev, keepalive: parseInt(e.target.value) || 60 }))}
+                    placeholder="60"
+                    size="small"
                   />
                 </Form.Item>
-                <Form.Item label="Reconnect Period (ms)">
+                <Form.Item label={<span className="text-xs md:text-sm">Connect Timeout</span>}>
                   <Input
                     type="number"
-                    value={brokerConfig.reconnectPeriod}
-                    onChange={e => setBrokerConfig(prev => ({ ...prev, reconnectPeriod: parseInt(e.target.value) }))}
-                    min={0}
+                    value={brokerConfig.connectTimeout}
+                    onChange={e => setBrokerConfig(prev => ({ ...prev, connectTimeout: parseInt(e.target.value) || 4000 }))}
+                    placeholder="4000"
+                    size="small"
                   />
                 </Form.Item>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 justify-center">
                 <Button
                   type="primary"
-                  onClick={handleConnect}
-                  className="bg-blue-500 hover:bg-blue-600 text-white flex-1"
                   icon={<ThunderboltOutlined />}
+                  onClick={handleConnect}
                   disabled={isConnected}
-                  loading={connectionStatus === 'connecting'}
+                  className="bg-green-500 hover:bg-green-600 text-xs md:text-sm"
+                  size="small"
                 >
                   Connect
                 </Button>
                 <Button
-                  type="primary"
                   danger
+                  icon={<DeleteOutlined />}
                   onClick={disconnect}
-                  className="flex-1"
-                  icon={<ThunderboltOutlined />}
                   disabled={!isConnected}
+                  className="text-xs md:text-sm"
+                  size="small"
                 >
                   Disconnect
                 </Button>
@@ -327,11 +342,11 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
           </Panel>
         </Collapse>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
+          <div className="space-y-3 md:space-y-4">
             <div>
-              <Title level={5} className="flex items-center mb-2">
-                <SendOutlined className="mr-2 text-blue-500 text-xl" />
+              <Title level={5} className="flex items-center mb-2 text-sm md:text-base">
+                <SendOutlined className="mr-1 md:mr-2 text-blue-500 text-base md:text-xl" />
                 Publish Message
               </Title>
               <Space direction="vertical" className="w-full">
@@ -339,18 +354,21 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                   placeholder="Topic"
                   value={publishTopic}
                   onChange={e => setPublishTopic(e.target.value.replace(/^\s+|\s+$/g, ''))}
-                  prefix={<MessageOutlined className="text-blue-500" />}
+                  prefix={<MessageOutlined className="text-blue-500 text-xs md:text-sm" />}
+                  size="small"
                 />
                 <TextArea
                   placeholder="Message"
                   value={publishMessage}
                   onChange={e => setPublishMessage(e.target.value)}
-                  rows={4}
+                  rows={3}
+                  className="text-xs md:text-sm"
                 />
                 <Select
                   value={publishQos}
                   onChange={setPublishQos}
                   className="w-full"
+                  size="small"
                 >
                   <Option value={0}>QoS 0 - At most once</Option>
                   <Option value={1}>QoS 1 - At least once</Option>
@@ -359,9 +377,10 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                 <Button
                   type="primary"
                   onClick={handlePublish}
-                  className="bg-blue-500 hover:bg-blue-600 text-white"
+                  className="bg-blue-500 hover:bg-blue-600 text-white text-xs md:text-sm"
                   icon={<SendOutlined />}
                   disabled={!isConnected}
+                  size="small"
                 >
                   Publish
                 </Button>
@@ -369,8 +388,8 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
             </div>
 
             <div>
-              <Title level={5} className="flex items-center mb-2">
-                <PlusOutlined className="mr-2 text-green-500 text-xl" />
+              <Title level={5} className="flex items-center mb-2 text-sm md:text-base">
+                <PlusOutlined className="mr-1 md:mr-2 text-green-500 text-base md:text-xl" />
                 Subscribe to Topic
               </Title>
               <Space direction="vertical" className="w-full">
@@ -378,12 +397,14 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                   placeholder="Topic"
                   value={subscribeTopic}
                   onChange={e => setSubscribeTopic(e.target.value.replace(/^\s+|\s+$/g, ''))}
-                  prefix={<MessageOutlined className="text-green-500" />}
+                  prefix={<MessageOutlined className="text-green-500 text-xs md:text-sm" />}
+                  size="small"
                 />
                 <Select
                   value={subscribeQos}
                   onChange={setSubscribeQos}
                   className="w-full"
+                  size="small"
                 >
                   <Option value={0}>QoS 0 - At most once</Option>
                   <Option value={1}>QoS 1 - At least once</Option>
@@ -392,9 +413,10 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                 <Button
                   type="primary"
                   onClick={handleSubscribe}
-                  className="bg-green-500 hover:bg-green-600 text-white"
+                  className="bg-green-500 hover:bg-green-600 text-white text-xs md:text-sm"
                   icon={<PlusOutlined />}
                   disabled={!isConnected}
+                  size="small"
                 >
                   Subscribe
                 </Button>
@@ -403,8 +425,8 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
 
             {subscribedTopics.length > 0 && (
               <div>
-                <Title level={5} className="flex items-center mb-2">
-                  <ApiOutlined className="mr-2 text-purple-500 text-xl" />
+                <Title level={5} className="flex items-center mb-2 text-sm md:text-base">
+                  <ApiOutlined className="mr-1 md:mr-2 text-purple-500 text-base md:text-xl" />
                   Subscribed Topics
                 </Title>
                 <List
@@ -417,23 +439,25 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                           danger
                           icon={<DeleteOutlined />}
                           onClick={() => handleUnsubscribe(topic.topic)}
+                          size="small"
                         />
                       ]}
                     >
                       <Space>
-                        <Tag color="green">{topic.topic}</Tag>
-                        <Text type="secondary">QoS {topic.qos}</Text>
+                        <Tag color="green" className="text-xs">{topic.topic}</Tag>
+                        <Text type="secondary" className="text-xs">QoS {topic.qos}</Text>
                       </Space>
                     </List.Item>
                   )}
+                  size="small"
                 />
               </div>
             )}
           </div>
 
           <div>
-            <Title level={5} className="flex items-center mb-2" style={{ position: 'relative' }}>
-              <CodeOutlined className="mr-2 text-purple-500 text-xl" />
+            <Title level={5} className="flex items-center mb-2 text-sm md:text-base" style={{ position: 'relative' }}>
+              <CodeOutlined className="mr-1 md:mr-2 text-purple-500 text-base md:text-xl" />
               Message History
               <Button
                 type="text"
@@ -442,26 +466,27 @@ export const BrokerControlCard: React.FC<BrokerControlCardProps> = ({ deviceId }
                 onClick={handleClearMessages}
                 style={{ position: 'absolute', right: 0, top: 0 }}
                 title="Xóa lịch sử"
+                size="small"
               />
             </Title>
             <List
-              className="bg-white rounded-lg shadow-inner p-4"
+              className="bg-white rounded-lg shadow-inner p-3 md:p-4"
               dataSource={messages}
               renderItem={message => (
                 <List.Item>
                   <div className="w-full">
-                    <div className="flex justify-between items-center mb-2">
-                      <Tag color={message.type === 'sent' ? 'blue' : 'green'}>
+                    <div className="flex justify-between items-center mb-1 md:mb-2">
+                      <Tag color={message.type === 'sent' ? 'blue' : 'green'} className="text-xs">
                         {message.type === 'sent' ? 'Sent' : 'Received'}
                       </Tag>
-                      <Text type="secondary">{message.time}</Text>
+                      <Text type="secondary" className="text-xs">{message.time}</Text>
                     </div>
-                    <div className="mb-2">
-                      <Text strong>Topic:</Text> {message.topic}
+                    <div className="mb-1 md:mb-2">
+                      <Text strong className="text-xs md:text-sm">Topic:</Text> <span className="text-xs md:text-sm">{message.topic}</span>
                     </div>
                     <div>
-                      <Text strong>Payload:</Text>
-                      <pre className="bg-gray-50 p-2 rounded mt-1 overflow-x-auto">
+                      <Text strong className="text-xs md:text-sm">Payload:</Text>
+                      <pre className="bg-gray-50 p-1 md:p-2 rounded mt-1 overflow-x-auto text-xs md:text-sm">
                         {formatJson(message.payload)}
                       </pre>
                     </div>
