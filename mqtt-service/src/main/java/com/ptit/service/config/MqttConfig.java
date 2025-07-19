@@ -40,13 +40,16 @@ public class MqttConfig {
     public MqttClient mqttClient() {
         try {
             logger.info("Initializing MQTT client...");
-            logger.debug("Broker URL: {}", brokerUrl);
-            logger.debug("Client ID: {}", clientId);
-            logger.debug("Username: {}", username);
+            logger.info("Broker URL: {}", brokerUrl);
+            logger.info("Client ID: {}", clientId);
+            logger.info("Username: {}", username);
 
             MqttClient client = new MqttClient(brokerUrl, clientId);
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(true);
+            options.setConnectionTimeout(30);
+            options.setKeepAliveInterval(60);
+            options.setAutomaticReconnect(true);
 
             // Thêm thông tin xác thực vào connect options
             if (username != null && !username.isEmpty()) {
@@ -56,6 +59,24 @@ public class MqttConfig {
 
             client.connect(options);
             logger.info("MQTT client connected successfully to broker at: {}", brokerUrl);
+
+            // Thêm callback để xử lý disconnect
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+                    logger.error("MQTT connection lost", cause);
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) {
+                    logger.debug("Message arrived on topic: {}", topic);
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                    logger.debug("Message delivery complete");
+                }
+            });
 
             return client;
         } catch (MqttException e) {

@@ -13,8 +13,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:4000", "http://192.168.1.222:4000", "http://localhost")
-                .withSockJS();
+                .setAllowedOrigins(
+                        "http://localhost:4000",
+                        "http://192.168.1.222:4000",
+                        "http://localhost",
+                        "https://openday.openlab.com.vn",
+                        "https://www.openday.openlab.com.vn",
+                        "http://14.225.255.177:4000",
+                        "https://14.225.255.177:4000")
+                .withSockJS()
+                .setHeartbeatTime(25000)
+                .setDisconnectDelay(5000);
     }
 
     @Override

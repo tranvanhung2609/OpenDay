@@ -49,9 +49,9 @@ export const useControlBroker = ({
         client.end();
       }
 
-      const protocol = config.protocol || 'ws';
+      const protocol = config.protocol || 'wss';
       const path = config.path || '/mqtt';
-      const url = `${protocol}://${config.address}:${config.port}${path}`;
+      const url = `${protocol}://${config.address}${path}`;
 
       const options: IClientOptions = {
         username: config.username,

@@ -91,7 +91,12 @@ const NotificationContent: React.FC<{ notifications: Notification[]; isLoading: 
 export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ notifications, isLoading, children }) => {
   return (
     <Dropdown
-      overlay={<NotificationContent notifications={notifications} isLoading={isLoading} />}
+      menu={{
+        items: [{
+          key: 'notifications',
+          label: <NotificationContent notifications={notifications} isLoading={isLoading} />
+        }]
+      }}
       trigger={['click']}
       placement="bottomRight"
     >

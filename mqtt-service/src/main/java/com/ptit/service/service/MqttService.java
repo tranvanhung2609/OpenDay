@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-public class MqttService extends BaseService{
+public class MqttService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(MqttService.class);
 
@@ -32,12 +32,30 @@ public class MqttService extends BaseService{
     public void init() {
         try {
             logger.info("Initializing MQTT Service...");
+
+            // Đảm bảo client đã kết nối
+            if (!mqttClient.isConnected()) {
+                logger.warn("MQTT client not connected, attempting to connect...");
+                mqttClient.connect();
+            }
+
             mqttClient.subscribe("iot/data", this::handleDeviceDataMessage);
             logger.info("Subscribed to topic: iot/data");
+
             // Subscribe nhận phản hồi lệnh
             mqttClient.subscribe("iot/command-response/#", this::handleCommandResponse);
+            logger.info("Subscribed to topic: iot/command-response/#");
+
         } catch (MqttException e) {
             logger.error("Error subscribing to MQTT topic", e);
+            // Thử kết nối lại sau 5 giây
+            try {
+                Thread.sleep(5000);
+                init();
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                logger.error("Interrupted while retrying MQTT connection", ie);
+            }
         }
     }
 
@@ -108,7 +126,7 @@ public class MqttService extends BaseService{
 
             sensorDataService.save(sensorData);
 
-            notificationService.sendRealtimeUpdate("/topic/sensorData/"+ device.getId() , sensorData);
+            notificationService.sendRealtimeUpdate("/topic/sensorData/" + device.getId(), sensorData);
             logger.debug("Sending data to /topic/sensorData/{}: {}", device.getId(), sensorData);
             System.out.printf("Published : %s\n", sensorData);
         } catch (Exception e) {

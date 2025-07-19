@@ -33,12 +33,12 @@ spring:
 
 mqtt:
   broker:
-    url: ${MQTT_BROKER_URL}
+    url: tcp://14.225.255.177:1883
   client:
-    id: ${MQTT_CLIENT_ID:mqtt-service}
-  topic: ${MQTT_TOPIC:mqtt/#}
-  username: ${MQTT_USERNAME:admin}
-  password: ${MQTT_PASSWORD:admin}
+    id: mqtt-service
+  topic: mqtt/#
+  username: admin
+  password: admin
 
 management:
   endpoints:
